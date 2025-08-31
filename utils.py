@@ -1,28 +1,21 @@
-import logging, html, unicodedata, re
-from datetime import datetime, timezone
+import logging
+import os
 
-def setup_logger(name="scraper", level=logging.INFO):
+def make_logger(name="app"):
+    os.makedirs("logs", exist_ok=True)
     logger = logging.getLogger(name)
+    logger.setLevel(logging.INFO)
     if not logger.handlers:
         ch = logging.StreamHandler()
-        ch.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(message)s"))
+        fh = logging.FileHandler("logs/run.log", encoding="utf-8")
+        fmt = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
+        ch.setFormatter(fmt)
+        fh.setFormatter(fmt)
         logger.addHandler(ch)
-        logger.setLevel(level)
+        logger.addHandler(fh)
     return logger
 
-logger = setup_logger()
+logger = make_logger()
 
-def normalize_text(s: str) -> str:
-    if not s: return ""
-    s = html.unescape(s)
-    s = unicodedata.normalize("NFKC", s)
-    return s.strip()
-
-URL_RE = re.compile(r"http\S+|https\S+")
-HASHTAG_RE = re.compile(r"#(\w+)")
-MENTION_RE = re.compile(r"@(\w+)")
-
-def extract_hashtags(text): return [h.lower() for h in HASHTAG_RE.findall(text or "")]
-def extract_mentions(text): return [m.lower() for m in MENTION_RE.findall(text or "")]
-def strip_urls(text): return URL_RE.sub("", text or "").strip()
-def to_utc(dt): return dt.astimezone(timezone.utc) if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
+def count_rows(df):
+    return df.shape[0]

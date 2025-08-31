@@ -1,0 +1,6 @@
+2025-09-01 01:59:16,076 [INFO] Loaded 291 tweets
+2025-09-01 01:59:16,130 [INFO] Vectorized texts -> shape=(291, 1048576), meta={'type': 'hashing', 'n_features': 1048576}
+2025-09-01 02:00:22,796 [INFO] SVD reduced: (291, 1048576) -> (291, 100) (explained var sum=0.5043)
+2025-09-01 02:00:23,680 [INFO] Signal=0.07426  95% CI=[0.05180, 0.09955]
+2025-09-01 02:00:24,798 [INFO] Saved plot to data/signal_preview.png (points=23)
+2025-09-01 02:00:24,799 [INFO] Analysis complete.
